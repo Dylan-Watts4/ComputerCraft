@@ -70,10 +70,10 @@ end
 
 -- Coroutine definitions
 local rednetCoroutine = coroutine.create(interpretMessage)
-rednetCoroutine.resume(rednetCoroutine)
+coroutine.resume(rednetCoroutine)
 
 local turtleCoroutine = coroutine.create(turtleAction)
-turtleCoroutine.resume(turtleCoroutine)
+coroutine.resume(turtleCoroutine)
 
 -- Main loop
 running = true
