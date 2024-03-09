@@ -44,9 +44,9 @@ function interpretMessage()
         local id, message, protocol = rednet.receive("request", 1)
         if message == "status" then
             sendMessage = getStatus()
-        elseif message == "inventory" 
+        elseif message == "inventory" then
             sendMessage =  getInventory()
-        elseif message == "kill" 
+        elseif message == "kill" then
             sendMessage = closeClient()
         end
         if sendMessage ~= nil then
@@ -121,7 +121,7 @@ function move()
                 rotate()
                 relPos.dy = -1
                 updateRelPos()
-            elseif nextPos.y <= 1
+            elseif nextPos.y <= 1 then
                 orientation = 1
                 rotate()
                 relPos.dy = 1
@@ -138,9 +138,9 @@ function farm()
         if data.name == "minecraft:wheat" 
             turtle.digDown()
             turtle.placeDown()
-        elseif data.name == "minecraft:farmland" 
+        elseif data.name == "minecraft:farmland" then
             turtle.placeDown()
-        elseif data.name == "minecraft:mud" or data.name == "minecraft:grass" 
+        elseif data.name == "minecraft:mud" or data.name == "minecraft:grass" then
             turtle.digDown()
             turtle.placeDown()
         end
