@@ -55,16 +55,103 @@ function interpretMessage()
     end
 end
 
--- Function to implement pain in the arse movement logic
+-- Consider the farming area as a recntangle
+local farm = {
+    ["width"] = 0,
+    ["length"] = 0,
+}
+
+local relPos = {
+    ["x"] = 0,
+    ["y"] = 0,
+    ["dx"] = 0,
+    ["dy"] = 0,
+    ["mirror"] = 0,
+}
+
+-- Local orientation, 1 = forward, 0 = backward
+local orientation = 1
+
+-- Funtion to calculate next position
+function nextPos()
+    return {["x"] = relPos.x + relPos.dx, ["y"] = relPos.y + relPos.dy}
+end
+
+-- Function to update the relative position
+function updateRelPos()
+    relPos.x = relPos.x + relPos.dx
+    relPos.y = relPos.y + relPos.dy
+end
+
+-- Function to rotate the turtle
+function rotate()
+    -- If the turtle is at the top of the farm
+    if orientation == 1 then
+        turtle.turnLeft()
+        turtle.forward()
+        turtle.turnLeft()
+    -- If the turtle is at the bottom of the farm
+    else
+        turtle.turnRight()
+        turtle.forward()
+        turtle.turnRight()
+    end
+end
+
+-- Function to check wheather the turtle is out of bounds
+function outOfBounds()
+    local nextPos = nextPos()
+    if nextPos.x > farm.width then
+        turtle.turnRight()
+        turtle.turnRight()
+        relPos.dy = 1
+        relPos.x = 1
+        relPos.y = 0
+    end
+end
+
+-- Function to move the turtle
 function move()
-    turtle.turnLeft()
+    for x = 1, farm.width do
+        for y = 1, farm.length do
+            local nextPos = nextPos()
+            outOfBounds()
+            if nextPos.y >= farm.length then
+                orientation = 0
+                rotate()
+                relPos.dy = -1
+                updateRelPos()
+            elseif nextPos.y <= 1 then
+                orientation = 1
+                rotate()
+                relPos.dy = 1
+                updateRelPos()
+            end
+        end
+    end
+end
+
+-- Function to farm
+function farm()
+    local success, data = turtle.inspectDown()
+    if success then
+        if data.name == "minecraft:wheat" then
+            turtle.digDown()
+            turtle.placeDown()
+        else if data.name == "minecraft:farmland" then
+            turtle.placeDown()
+        else if data.name == "minecraft:mud" or data.name == "minecraft:grass" then
+            turtle.digDown()
+            turtle.placeDown()
+        end
+    end
 end
 
 -- Function to perform turtle action
 function turtleAction()
     while true do
-        getStatus()
-        getInventory()
+        move()
+        farm()
     end
 end
 
