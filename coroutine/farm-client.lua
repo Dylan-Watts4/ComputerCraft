@@ -57,8 +57,8 @@ end
 
 -- Consider the farming area as a recntangle
 local farm = {
-    ["width"] = 0,
-    ["length"] = 0,
+    ["width"] = 17,
+    ["length"] = 18,
 }
 
 local relPos = {

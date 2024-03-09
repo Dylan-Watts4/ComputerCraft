@@ -25,6 +25,7 @@ function interpretMessage(maxCount)
     local count = 0
     while true do
         local id, message, protocol = rednet.receive("response", 1)
+        if message == nil then break end
         print(id..":"..message)
         if count >= maxCount then break end
     end
