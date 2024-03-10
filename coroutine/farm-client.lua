@@ -137,7 +137,7 @@ end
 function farm()
     local success, data = turtle.inspectDown()
     if success then
-        if data.name == "minecraft:wheat" 
+        if data.name == "minecraft:wheat" then
             turtle.digDown()
             turtle.placeDown()
         elseif data.name == "minecraft:farmland" then
