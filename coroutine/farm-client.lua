@@ -1,3 +1,5 @@
+-- https://raw.githubusercontent.com/Dylan-Watts4/ComputerCraft/main/coroutine/farm-client.lua
+
 -- Open connection
 side = "right"
 rednet.open(side)
@@ -151,7 +153,7 @@ end
 function turtleAction()
     while true do
         move()
-        farm()
+        --farm()
     end
 end
 

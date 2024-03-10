@@ -1,3 +1,5 @@
+-- https://raw.githubusercontent.com/Dylan-Watts4/ComputerCraft/main/coroutine/server.lua
+
 -- Open connection
 side = "left"
 rednet.open(side)
