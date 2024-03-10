@@ -68,7 +68,6 @@ local relPos = {
     ["y"] = 0,
     ["dx"] = 0,
     ["dy"] = 0,
-    ["mirror"] = 0,
 }
 
 -- Local orientation, 1 = forward, 0 = backward
@@ -81,8 +80,15 @@ end
 
 -- Function to update the relative position
 function updateRelPos()
+    -- Update the relative position
     relPos.x = relPos.x + relPos.dx
     relPos.y = relPos.y + relPos.dy
+    -- Move the turtle according to the relative position
+    if orientation == 1 then
+        turtle.forward()
+    else
+        turtle.back()
+    end
 end
 
 -- Function to rotate the turtle
@@ -114,22 +120,20 @@ end
 
 -- Function to move the turtle
 function move()
-    for x = 1, farm.width do
-        for y = 1, farm.length do
-            local nextPos = nextPos()
-            outOfBounds()
-            if nextPos.y >= farm.length then
-                orientation = 0
-                rotate()
-                relPos.dy = -1
-                updateRelPos()
-            elseif nextPos.y <= 1 then
-                orientation = 1
-                rotate()
-                relPos.dy = 1
-                updateRelPos()
-            end
-        end
+    local nextPos = nextPos()
+    outOfBounds()
+    if nextPos.y >= farm.length then
+        orientation = 0
+        rotate()
+        relPos.dy = -1
+        updateRelPos()
+    elseif nextPos.y <= 1 then
+        orientation = 1
+        rotate()
+        relPos.dy = 1
+        updateRelPos()
+    else
+        updateRelPos()
     end
 end
 
@@ -153,6 +157,7 @@ end
 function turtleAction()
     while true do
         move()
+        print("Moving")
         --farm()
     end
 end
@@ -171,8 +176,10 @@ while running == true do
     local event = {os.pullEvent()}
 
     if event[1] == "rednet_message" then
+        print("Rednet message received")
         coroutine.resume(rednetCoroutine)
     else 
+        print("Turtle action")
         coroutine.resume(turtleCoroutine)
     end
 
